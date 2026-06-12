@@ -31,4 +31,6 @@ jobs:
         run: jf config add artifactory --url="$JFROG_URL" --access-token="$JFROG_TOKEN" --interactive=false
 
       - name: Upload JAR to JFrog
-        run: jf rt upload "target/*.jar" ${{ secrets.JFROG_REPO }}/
+        env:
+          JFROG_REPO: ${{ secrets.JFROG_REPO }}
+        run: jf rt upload "target/*.jar" "$JFROG_REPO/"
