@@ -25,14 +25,10 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v4
 
       - name: Configure JFrog
-        run: |
-          jf config add \
-            --url=${{ secrets.JFROG_URL }} \
-            --access-token=${{ secrets.JFROG_TOKEN }} \
-            --interactive=false
+        env:
+          JFROG_URL: ${{ secrets.JFROG_URL }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+        run: jf config add artifactory --url="$JFROG_URL" --access-token="$JFROG_TOKEN" --interactive=false
 
       - name: Upload JAR to JFrog
-        run: |
-          jf rt upload \
-            "target/*.jar" \
-            ${{ secrets.JFROG_REPO }}/
+        run: jf rt upload "target/*.jar" ${{ secrets.JFROG_REPO }}/
